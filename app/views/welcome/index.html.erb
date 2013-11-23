@@ -1,0 +1,8 @@
+<p align="center">
+<%= image_tag("c5banner.png", :alt => "banner") %>
+</p>
+<p align="center">
+ <% @businesses.each do |business| %>
+  <%= link_to image_tag(business.image_url(:thumb).to_s), business %>
+<% end %>
+</p>
