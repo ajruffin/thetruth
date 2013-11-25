@@ -3,6 +3,6 @@
 </p>
 <p align="center">
  <% @businesses.each do |business| %>
-  <%= link_to image_tag(business.image_url(:thumb).to_s), business %>
+  <%= link_to image_tag(business.image_url(:thumb).to_s), profiles_show_path(id: business.name) %>
 <% end %>
 </p>

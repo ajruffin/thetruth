@@ -1,6 +1,8 @@
 class BusinessesController < ApplicationController
   before_action :set_business, only: [:show, :edit, :update, :destroy]
-
+  before_filter :check_if_admin, only: [:new, :create, :destroy]
+  before_filter :check_if_editor, only: [:edit, :update]
+  before_filter :check_allowed
   # GET /businesses
   # GET /businesses.json
   def index
@@ -61,6 +63,33 @@ class BusinessesController < ApplicationController
     end
   end
 
+  protected
+
+  def check_allowed
+  if signed_in?
+    raise 'Only admins allowed!' unless current_user.admin? or current_user.id == @business.user_id
+  else
+    # or you can use the authenticate_user! devise provides to only allow signed_in users
+    raise 'Please sign in!'
+  end
+  end
+  def check_if_admin
+  if signed_in?
+    raise 'Only admins allowed!' unless current_user.admin?
+  else
+    # or you can use the authenticate_user! devise provides to only allow signed_in users
+    raise 'Please sign in!'
+  end
+  end
+  
+  def check_if_editor
+  if signed_in?
+    raise 'Only admins allowed!' unless current_user.admin? or current_user.id == @business.user_id
+  else
+    # or you can use the authenticate_user! devise provides to only allow signed_in users
+    raise 'Please sign in!'
+  end
+  end
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_business
@@ -69,6 +98,6 @@ class BusinessesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def business_params
-      params.require(:business).permit(:name, :address, :city, :state, :zip, :image)
+      params.require(:business).permit(:name, :address, :city, :state, :zip, :image, :user_id)
     end
 end

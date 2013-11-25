@@ -1,4 +1,5 @@
 C5devV3::Application.routes.draw do
+  get "profiles/show"
   devise_for :users
   resources :businesses
 
@@ -10,6 +11,7 @@ C5devV3::Application.routes.draw do
     get 'login', to: 'devise/sessions#new', as: :login
     get 'logout', to: 'devise/sessions#destroy', as: :logout
   end
+  get '/:id', to: 'profiles#show'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
